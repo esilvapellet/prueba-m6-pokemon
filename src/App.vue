@@ -91,8 +91,8 @@ export default {
   max-height: 100%;
 }
 #totalPoke {
-  /* background-color: yellow; */
-  color: yellow;
+  background-color: yellow;
+  color: black;
 }
 .cuentaPoke {
   max-width: 75px;
