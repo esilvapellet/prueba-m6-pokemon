@@ -41,14 +41,6 @@ export default {
     mostrarPoke: function (index) {
       this.pokemones[index].mostrar = true;
       this.contador++;
-      if (this.todosDescubiertos) {
-        this.$swal({
-          title: "¡Felicidades!",
-          text: "¡Descubriste todos los pokemones!",
-          icon: "success",
-          confirmButtonText: "Ok",
-        });
-      }
     },
   },
   computed: {
