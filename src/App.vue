@@ -7,8 +7,7 @@
     <div class="d-flex justify-content-center align-items-center">
       <p class="m-2">Pokemones descubiertos</p>
       <span class="m-2 text-center" id="totalPoke">
-        <!-- <img class="cuentaPoke" src="./assets/pokebola.png" /> -->
-        <strong>{{ this.contador }}</strong>
+        <strong>{{ contador }} / {{ pokemones.length }}</strong>
       </span>
     </div>
     <div class="row py-3">
@@ -16,7 +15,7 @@
         <CardPokemon
           :imgPoke="pokemon.image"
           :nombrePoke="pokemon.name"
-          @descubrir="mostrarPoke()"
+          @descubrir="mostrarPoke(index)"
         />
       </div>
     </div>
@@ -39,8 +38,22 @@ export default {
     };
   },
   methods: {
-    mostrarPoke: function () {
+    mostrarPoke: function (index) {
+      this.pokemones[index].mostrar = true;
       this.contador++;
+      if (this.todosDescubiertos) {
+        this.$swal({
+          title: "¡Felicidades!",
+          text: "¡Descubriste todos los pokemones!",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
+      }
+    },
+  },
+  computed: {
+    todosDescubiertos: function () {
+      return this.contador === 20;
     },
   },
   async mounted() {
@@ -50,16 +63,19 @@ export default {
         return {
           image: response.data.sprites.other.dream_world.front_default,
           name: response.data.name,
+          correcto: false,
         };
       };
       let response = await axios.get("https://pokeapi.co/api/v2/pokemon/");
       let { data } = response;
+      // console.log(data.results);
       Promise.all(data.results.map((pokemon) => getData(pokemon.url)))
         .then((pokemones) => (this.pokemones = pokemones))
         .catch((error) => {
           alert("Error al procesar pokemones.");
           console.log(error);
         });
+      this.pokemones.rightAnswer = true;
     } catch (error) {
       console.log(error);
       if (error.code == "ERR_NETWORK") {

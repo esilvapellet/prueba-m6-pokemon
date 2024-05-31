@@ -3,6 +3,7 @@
     <div class="card m-3 p-2 border-primary-subtle" style="width: 18rem">
       <img
         class="card-img-top imgPoke"
+        draggable="false"
         :src="imgPoke"
         :class="{ visible: !mostrar }"
       />
